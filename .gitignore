@@ -1,0 +1,7 @@
+.DS_Store
+/.bundle
+/log/*.log
+/tmp
+/*.env
+/TODO.md
+/DEBUG.md
