@@ -1,4 +1,4 @@
-# 18F Auction Notifier
+# 18F Micropurchase Notifier
 
 18F, a branch of the US Digital Service, launched a ["micropurchasing"](https://18f.gsa.gov/2015/10/13/open-source-micropurchasing/) experiment last year,
 allowing interested developers to bid on small software engineering jobs via reverse auctions starting at $3,500.
