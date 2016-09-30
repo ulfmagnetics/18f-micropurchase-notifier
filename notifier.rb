@@ -12,10 +12,10 @@ class Notifier
   end
 
   def call(env)
-    timestamp = last_checked_at
+    timestamp = self.last_checked_at
     items = new_items(since: timestamp)
     notify_user(new_items: items)
-    last_checked_at = Time.now
+    self.last_checked_at = Time.now
 
     msg = "#{items.size} new auctions since #{timestamp}"
     puts "[#{Time.now.to_s}] GET /: #{msg}"
@@ -41,7 +41,7 @@ class Notifier
     deliver(json: mail.to_json)
   end
 
-private
+protected
 
   attr_accessor :last_checked_at
   attr_reader :redis, :api_client, :emails_to_notify
