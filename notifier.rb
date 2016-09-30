@@ -48,10 +48,13 @@ private
 
   def last_checked_at
     return DateTime.parse(ENV['DEBUG_LAST_CHECKED_KEY']) if !ENV['DEBUG_LAST_CHECKED_KEY'].nil?
-    DateTime.parse(redis.get(LAST_CHECKED_KEY)) rescue Time.now
+    timestamp = DateTime.parse(redis.get(LAST_CHECKED_KEY)) rescue Time.now
+    puts "Redis #{LAST_CHECKED_KEY} contains #{timestamp}"
+    timestamp
   end
 
   def last_checked_at=(timestamp)
+    puts "Setting #{LAST_CHECKED_KEY} to #{timestamp.to_s}"
     redis.set(LAST_CHECKED_KEY, timestamp.to_s)
   end
 
