@@ -17,7 +17,9 @@ RSpec.describe ApiClient, vcr: true do
 
     context 'when response is invalid' do
       let(:api_key) { 'BOGUS' }
-      pending
+      it 'raises an error' do
+        expect { subject }.to raise_error(ApiClient::ApiError)
+      end
     end
   end
 end
