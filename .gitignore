@@ -2,6 +2,7 @@
 /.bundle
 /log/*.log
 /tmp
+/.pryrc
 /*.env
 /*.env.test
 /TODO.md

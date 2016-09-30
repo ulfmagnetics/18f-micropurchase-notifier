@@ -11,6 +11,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'pry', '~> 0.10.4'
+  gem 'pry-byebug', '~> 3.4.0'
   gem 'rspec', '~> 3.5.0'
   gem 'vcr', '~> 3.0.3'
   gem 'webmock', '~> 2.1.0'

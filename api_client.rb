@@ -13,7 +13,7 @@ class ApiClient
     response = get('/auctions')
     body = JSON.parse(response.body)['auctions']
   rescue => ex
-    raise ApiError, "Couldn't fetch list of auctions (response.code=#{response.code})"
+    raise ApiError, "Couldn't fetch list of auctions (response.code=#{response&.code})"
   end
 
 private
