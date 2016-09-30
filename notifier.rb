@@ -62,8 +62,8 @@ private
       lines << "https://micropurchase.18f.gov/auctions/#{item.id}"
       lines << ""
       lines << item.summary
-      lines.join('\n')
-    end.join('\n---\n\n')
+      lines.join("\n")
+    end.join("\n---\n\n")
   end
 
   def deliver(json:)
