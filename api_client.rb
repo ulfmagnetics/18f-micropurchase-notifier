@@ -11,7 +11,8 @@ class ApiClient
 
   def auctions
     response = get('/auctions')
-    body = JSON.parse(response.body)['auctions']
+    auctions = JSON.parse(response.body)['auctions']
+    auctions.map { |auction| Hashie::Mash.new(auction) }
   rescue => ex
     raise ApiError, "Couldn't fetch list of auctions (response.code=#{response&.code})"
   end
