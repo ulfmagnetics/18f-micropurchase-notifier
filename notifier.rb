@@ -58,12 +58,12 @@ private
   def render_items_as_text(items:)
     items.each_with_index.map do |item, i|
       lines = []
-      lines << "#{i+1}. #{item.title}"
+      lines << "#{i+1}: #{item.title}"
       lines << "https://micropurchase.18f.gov/auctions/#{item.id}"
       lines << ""
       lines << item.summary
       lines.join("\n")
-    end.join("\n---\n\n")
+    end.join("\n\n---\n\n")
   end
 
   def deliver(json:)
