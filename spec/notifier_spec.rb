@@ -16,9 +16,9 @@ RSpec.describe Notifier do
   describe '#new_items' do
     let(:auctions) do
       [
-        Hashie::Mash.new({ 'created_at' => Time.now - (3600*4), 'description' => 'Too old' }),
-        Hashie::Mash.new({ 'created_at' => Time.now - (3600*2), 'description' => 'New enough' }),
-        Hashie::Mash.new({ 'created_at' => Time.now - (3600*1), 'description' => 'Even newer' })
+        Hashie::Mash.new({ 'created_at' => (Time.now - (3600*4)).to_datetime.to_s, 'description' => 'Too old' }),
+        Hashie::Mash.new({ 'created_at' => (Time.now - (3600*2)).to_datetime.to_s, 'description' => 'New enough' }),
+        Hashie::Mash.new({ 'created_at' => (Time.now - (3600*1)).to_datetime.to_s, 'description' => 'Even newer' })
       ]
     end
 

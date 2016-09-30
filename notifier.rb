@@ -8,16 +8,16 @@ class Notifier
   end
 
   def call(env)
-    timestamp = self.last_checked_at
+    timestamp = last_checked_at
     items = new_items(since: timestamp)
     notify_user(new_items: items)
-    self.last_checked_at = Time.now
+    last_checked_at = Time.now
 
     [200, {"Content-Type" => "text/plain"}, ["#{items.size} new auctions since #{timestamp}"]]
   end
 
   def new_items(since:)
-    api_client.auctions.select { |auction| auction.created_at >= since }
+    api_client.auctions.select { |auction| DateTime.parse(auction.created_at) >= since.to_datetime }
   end
 
   def notify_user(new_items:)
