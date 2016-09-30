@@ -45,8 +45,3 @@ VCR.configure do |c|
   c.default_cassette_options    = { record: :new_episodes, match_requests_on: [:method, :uri, :headers] }
 end
 require 'webmock/rspec'
-
-require 'mail'
-Mail.defaults do
-  delivery_method :test
-end

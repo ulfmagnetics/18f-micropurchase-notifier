@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'hashie', '~> 3.4.6'
-gem 'mail', '~> 2.6.4'
 gem 'puma', '~> 3.6.0'
 gem 'rack', '~> 2.0.1'
 gem 'redis', '~> 3.3.1'
 gem 'rest-client', '~> 2.0.0'
+gem 'sendgrid-ruby', '~> 4.0.4'
 
 group :development, :test do
   gem 'dotenv', '~> 2.1.1'

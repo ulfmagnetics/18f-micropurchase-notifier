@@ -1,4 +1,8 @@
+require 'sendgrid-ruby'
+include SendGrid
+
 class Notifier
+
   LAST_CHECKED_KEY='18f:last_checked_at'
 
   def initialize(redis:, api_client:, emails_to_notify:)
@@ -13,7 +17,9 @@ class Notifier
     notify_user(new_items: items)
     last_checked_at = Time.now
 
-    [200, {"Content-Type" => "text/plain"}, ["#{items.size} new auctions since #{timestamp}"]]
+    msg = "#{items.size} new auctions since #{timestamp}"
+    puts "[#{Time.now.to_s}] GET /: #{msg}"
+    [200, {"Content-Type" => "text/plain"}, [msg]]
   end
 
   def new_items(since:)
@@ -23,11 +29,16 @@ class Notifier
   def notify_user(new_items:)
     return unless new_items.any?
     mail = Mail.new
-    mail.from = "no-reply@18f-micropurchase-notifier.herokuapp.com"
-    mail.to = emails_to_notify
+    mail.from = Email.new(email: "no-reply@18f-micropurchase-notifier.herokuapp.com")
     mail.subject = "#{new_items.size} new micropurchase auctions have been posted"
-    mail.body = render_items_as_text(items: new_items)
-    mail.deliver!
+
+    personalization = Personalization.new
+    emails_to_notify.each { |email| personalization.to = Email.new(email: email) }
+    mail.personalizations = personalization
+
+    mail.contents = Content.new(type: 'text/plain', value: render_items_as_text(items: new_items))
+
+    deliver(json: mail.to_json)
   end
 
 private
@@ -53,5 +64,13 @@ private
       lines << item.summary
       lines.join('\n')
     end.join('\n---\n\n')
+  end
+
+  def deliver(json:)
+    sendgrid.client.mail._('send').post(request_body: json)
+  end
+
+  def sendgrid
+    @sendgrid ||= SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'], host: 'https://api.sendgrid.com')
   end
 end

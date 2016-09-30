@@ -36,6 +36,12 @@ RSpec.describe Notifier do
   end
 
   describe '#notify_user' do
+    let(:sendgrid) { double('sendgrid') }
+
+    before do
+      allow(notifier).to receive(:sendgrid).and_return(sendgrid)
+    end
+
     subject { notifier.notify_user(new_items: new_items) }
 
     context 'when there are new items' do
@@ -44,13 +50,16 @@ RSpec.describe Notifier do
       let(:new_items) { [ new_item_a, new_item_b ] }
 
       it 'delivers an email to the notification list' do
+        expect(notifier).to receive(:deliver) do |args|
+          json = Hashie::Mash.new(args[:json])
+          expect(json.personalizations.first.to.map(&:email)).to match_array(emails_to_notify)
+          expect(json.content.first.value).to match(/1\. Title A/)
+          expect(json.content.first.value).to match(/Summary A/)
+          expect(json.content.first.value).to match(/2\. Title B/)
+          expect(json.content.first.value).to match(/Summary B/)
+        end
+
         subject
-        expect(Mail::TestMailer.deliveries.size).to eq(1)
-        message = Mail::TestMailer.deliveries.first
-        expect(message.body.to_s).to match(/1\. Title A/)
-        expect(message.body.to_s).to match(/Summary A/)
-        expect(message.body.to_s).to match(/2\. Title B/)
-        expect(message.body.to_s).to match(/Summary B/)
       end
     end
   end
