@@ -53,9 +53,9 @@ RSpec.describe Notifier do
         expect(notifier).to receive(:deliver) do |args|
           json = Hashie::Mash.new(args[:json])
           expect(json.personalizations.first.to.map(&:email)).to match_array(emails_to_notify)
-          expect(json.content.first.value).to match(/1\. Title A/)
+          expect(json.content.first.value).to match(/1: Title A/)
           expect(json.content.first.value).to match(/Summary A/)
-          expect(json.content.first.value).to match(/2\. Title B/)
+          expect(json.content.first.value).to match(/2: Title B/)
           expect(json.content.first.value).to match(/Summary B/)
         end
 
