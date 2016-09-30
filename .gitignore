@@ -3,6 +3,7 @@
 /log/*.log
 /tmp
 /*.env
+/*.env.test
 /TODO.md
 /DEBUG.md
 /*.sw[po]
